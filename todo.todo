@@ -1,0 +1,156 @@
+// Application Agnostic
+
+// blockable taks
+
+// MOBILE WEB INSPECTOR
+
+
+//
+// UTIL
+//
+
+var onError			= function(err) {
+	beep();
+	gutil.log(gutil.colors.green(err + '\n'));
+};
+
+.pipe(plumber({errorHandler: onError}))
+
+.pipe(size({showFiles: true}))
+
+.pipe(notify('sass is done.\n'));
+
+// filter      	= require('gulp-filter'),
+
+cache,cahed,remember,changed,newer,memory-cache
+
+os.cpuUsage(function(v) { console.log( 'CPU Usage (%): ' + v ); })
+
+// .pipe(zopfli())
+// .pipe(zip('main.css.zip'))
+
+gulp.task('ngrok', function () {
+	ngrok.connect({
+	    authtoken: 'aGJcNEqh838HDfvyheIe', //2BUMGp1fJDzPal7FvxN2
+	    //httpauth: 'login:password',
+	    port: 3000
+	  }, function(err, url) {
+	    if (err !== null) {
+	      console.log( err );
+	    }
+	});
+});
+
+gulp.task('pagespeed', ['ngrok'], function () {
+	return psi({
+	    nokey: 'true', // or use key: ‘YOUR_API_KEY’
+	    url: url,
+	    strategy: 'mobile'
+	});
+});
+
+//
+// Styles
+//
+
+	gulp.spritesmith
+	gulp-base64
+
+
+// .pipe(cmq({log: true}))
+   .pipe(minifyCSS())
+
+   gulp-sass-lint
+   gulp-colorguard
+
+
+//
+// Scripts
+// 
+	
+	.pipe(jshint.reporter('jshint-stylish'))
+
+	automated-chrome-profiling
+
+	stats.js
+	kratko.js
+
+	gulp-obfuscate
+
+
+//
+// Image
+// 
+
+
+gulp-responsive
+
+gulp.task('image-resize-lg', ['image-resize-md'], function () {
+	return	gulp.src(paths.images.watchOpt)
+		.pipe(plumber({errorHandler: onError}))
+		.pipe(changed(paths.images.dest))
+		.pipe(parallel(imageResize({
+			width : 1200,
+			height : 900,
+			crop : true,
+			upscale : false
+		}), os.cpuUsage(function(v) { console.log( 'CPU Usage (%): ' + v ); })))
+	    .pipe(rename({suffix: '-lg'}))
+		.pipe(size({showFiles: true}))
+	    .pipe(gulp.dest(paths.images.dest))
+		.pipe(gulp.dest(paths.images.destProd));
+});
+gulp.task('cwebp', ['image-resize-lg'], function () {
+	return gulp.src(paths.images.watchProd)
+		.pipe(plumber({errorHandler: onError}))
+		.pipe(changed(paths.images.watchDest))
+	    .pipe(parallel(cwebp()), os.cpuUsage(function(v) { console.log( 'CPU Usage (%): ' + v ); }))
+	    .pipe(gulp.dest(paths.images.dest))
+	    .pipe(gulp.dest(paths.images.destProd))
+	    .pipe(notify('cwebp is done.\n'));
+});
+
+gulp.task('clear-cache', function(done) {
+	return cache(cache.caches = {});
+});
+
+//
+// SVG
+// 
+	gulp-svgmin
+	gulp-svg-sprite
+	gulp-iconfont + gulp-iconfont-css
+
+
+//
+// Jekill
+// 
+
+gulp.task('jekyll-build', function (done) {
+    browserSync.notify(messages.jekyllBuild);
+    return cp.spawn('jekyll', ['build'], {stdio: 'inherit'})
+        .on('close', done);
+});
+
+gulp.task('jekyll', ['jekyll-build'], function() {
+  	return gulp.src(paths.html.watchProd)
+	    .pipe(minifyHTML())
+	    .pipe(gulp.dest(paths.html.dest));
+});
+
+gulp.task('jekyll-rebuild', ['jekyll'], function () {
+    reload();
+});
+
+// 
+// HTML
+// 
+
+	minifyHTML 		= require('gulp-minify-html'),
+
+//
+// DEploy
+//
+
+Shipit
+Flightplan
