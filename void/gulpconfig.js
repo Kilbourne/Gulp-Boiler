@@ -8,11 +8,16 @@ var project     = 'new_project'
   , bower       = './bower_components/'
   , composer    = './vendor/'
   , modules     = './node_modules/'
+  , gutil       = require('gulp-util')
+  , beep        = require('beepbeep')
 ;
 
 // Project settings
 module.exports = {
-
+  error: function(err) {
+    beep();
+    gutil.log(gutil.colors.green(err + '\n'));
+  },
   bower: {
     /*
     normalize: { // Copies `normalize.css` from `bower_components` to `src/scss` and renames it to allow for it to imported as a Sass file

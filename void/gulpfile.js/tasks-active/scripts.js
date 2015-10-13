@@ -4,11 +4,14 @@ var gulp        = require('gulp')
   , plugins     = require('gulp-load-plugins')({ camelize: true })
   , merge       = require('merge-stream')
   , config      = require('../../gulpconfig').scripts
+  , onError     = require('../../gulpconfig').error+
+  ,plumber=     require('plumber')
 ;
 
 // Check core scripts for errors
 gulp.task('scripts-lint', function() {
-  return gulp.src(config.lint.src)
+  return gulp.src(config.lint.src)  
+.pipe(plumber({errorHandler: onError}))
   .pipe(plugins.jshint('.jshintrc'))
   .pipe(plugins.jshint.reporter('default')); // No need to pipe this anywhere
 });
@@ -36,8 +39,10 @@ gulp.task('scripts-bundle', ['scripts-lint'], function(){
   // Iterate through each bundle in the bundles array
   var tasks = bundles.map(function(bundle) {
     return gulp.src(bundle[1]) // bundle[1]: the list of source files
+    .pipe(plumber({errorHandler: onError})
     .pipe(plugins.concat(config.namespace + bundle[0].replace(/_/g, '-') + '.js')) // bundle[0]: the nice name of the script; underscores are replaced with hyphens
-    .pipe(gulp.dest(config.dest));
+    .pipe(gulp.dest(config.dest))
+    .pipe(plugin.size({showFiles: true}));
   });
 
   // Cross the streams ;)
@@ -46,10 +51,12 @@ gulp.task('scripts-bundle', ['scripts-lint'], function(){
 
 // Minify scripts in place
 gulp.task('scripts-minify', ['scripts-bundle'], function(){
-  return gulp.src(config.minify.src)
+  return gulp.src(config.minify.src)  
+.pipe(plumber({errorHandler: onError}))
   .pipe(plugins.rename(config.minify.rename))
   .pipe(plugins.uglify(config.minify.uglify))
-  .pipe(gulp.dest(config.minify.dest));
+  .pipe(gulp.dest(config.minify.dest))
+  .pipe(plugin.size({showFiles: true}));
 });
 
 // Master script task; lint -> bundle -> minify
