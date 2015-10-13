@@ -2,6 +2,7 @@
 
 // Project paths
 var project     = 'new_project'
+
   , src         = './src/'
   , build       = './build/'
   , dist        = './dist/'+project+'/'
@@ -14,6 +15,10 @@ var project     = 'new_project'
 
 // Project settings
 module.exports = {
+  app: 'wordpress', // Plan: support also Meteor,UnderscoreTemplate,Jekill
+  module: {
+    
+  },
   error: function(err) {
     beep();
     gutil.log(gutil.colors.green(err + '\n'));
